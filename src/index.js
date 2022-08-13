@@ -1,8 +1,6 @@
-const app = require('./app');
+import server from './boot/server';
+import logger from './utils/logger';
 
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  /* eslint-disable no-console */
-  console.log(`Listening: http://localhost:${port}`);
-  /* eslint-enable no-console */
+server.listen(server.get('port'), server.get('host'), () => {
+  logger.info(`Server started at http://${server.get('host')}:${server.get('port')}/api/v1`);
 });
