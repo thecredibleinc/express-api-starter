@@ -11,8 +11,8 @@ import routesV1 from '../routes/v1/routes';
 import {notFound ,errorHandler} from '../common/middlewares/error.middleware';
 import  authLimiter from './../common/middlewares/rateLimiter.middleware';
 import  { jwtStrategy } from '../auth/config/passport';
-
-
+import db from './../utils/dbconnection.util'
+import logger from './../utils/logger'
 const server = express();
 
 //set app port and host 
@@ -43,6 +43,20 @@ server.use(compression());
 // enable cors
 server.use(cors());
 server.options('*', cors());
+
+//initialise db 
+async function initialiseDb(){
+  try{
+    await db.sync();
+    await logger.info( "Connected to the Database successfully");
+  }catch(err){
+    await logger.error( `DB CONNECTIVITY ERROR: Message: ${e}.`);
+    await logger.error(`Terminating the process with code:1, due to DB CONNECTIVITY ERROR.`);
+    process.exit(1);
+  }
+}
+Promise.all([initialiseDb()])
+
 
 // jwt authentication
 server.use(passport.initialize());
