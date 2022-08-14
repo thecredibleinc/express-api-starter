@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "u739793688_fc_user_1",
+    "password": "footballCOUNTER@123",
+    "database": "u739793688_fc_db_v1",
+    "host": "185.232.14.11",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "u739793688_fc_user_1",
+    "password": "footballCOUNTER@123",
+    "database": "u739793688_fc_db_v1",
+    "host": "185.232.14.11",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "u739793688_fc_user_1",
+    "password": "footballCOUNTER@123",
+    "database": "u739793688_fc_db_v1",
+    "host": "185.232.14.11",
+    "dialect": "mysql"
+  }
+}
