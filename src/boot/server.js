@@ -8,9 +8,9 @@ import compression from 'compression'
 import passport from 'passport';
 import xss from 'xss-clean';
 import routesV1 from '../routes/v1/routes';
-import {notFound ,errorHandler} from '../common/middlewares/error.middleware';
-import  authLimiter from './../common/middlewares/rateLimiter.middleware';
-import  { jwtStrategy } from '../auth/config/passport';
+import {notFound ,errorHandler} from '../api/common/middlewares/error.middleware';
+import  authLimiter from './../api/common/middlewares/rateLimiter.middleware';
+import  { jwtStrategy } from '../api/auth/config/passport';
 import db from './../utils/dbconnection.util'
 import logger from './../utils/logger'
 const server = express();

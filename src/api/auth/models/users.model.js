@@ -1,5 +1,5 @@
 import {Model} from 'sequelize'
-import db from './../../utils/dbconnection.util';
+import db from '../../../utils/dbconnection.util';
 class UsersModel extends Model{
 
 }
