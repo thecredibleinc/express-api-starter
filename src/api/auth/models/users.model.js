@@ -1,10 +1,10 @@
-import {Model} from 'sequelize'
+import {Model,DataTypes} from 'sequelize'
 import db from '../../../utils/dbconnection.util';
-class UsersModel extends Model{
+class UserModel extends Model{
 
 }
 
-UsersModel.init({
+UserModel.init({
     // Model attributes are defined here
     id: {
         type: DataTypes.INTEGER,
@@ -30,12 +30,13 @@ UsersModel.init({
     },
   }, {
     // Other model options go here
-    db, // We need to pass the connection instance
+    sequelize:db, // We need to pass the connection instance
     tableName: 'users',
-        timestamps: true,
+    timestamps:true,
         updatedAt: 'updated_at',
         createdAt: 'created_at',
+        deletedAt: 'deleted_at'
   });
 
 
-  export default UsersModel
+  export default UserModel
