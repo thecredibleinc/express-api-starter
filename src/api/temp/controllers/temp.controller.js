@@ -1,5 +1,11 @@
  import TempModel from './../models/temp.model'
- class TempController{
+ import BaseController from './../../common/controllers/baseController'
+ const service = new TempService()
+ class TempController extends BaseController{
+
+    getService(){
+        return 
+    }
 
     /**
      * Get all users.

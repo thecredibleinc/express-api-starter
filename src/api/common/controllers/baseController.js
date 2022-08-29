@@ -1,5 +1,5 @@
 import HttpStatus from 'http-status-codes';
-import buildResponse from '../utils/buildResponse';
+import ResponseFormatter from './../../../utils/responseFormatter.util';
 class BaseController {
 
     /**
@@ -19,7 +19,7 @@ class BaseController {
     fetchAll(req, res, next) {
         this.getService()
         .fetchAll()
-        .then(data => res.json(buildResponse(data)))
+        .then(data => res.json(ResponseFormatter.format(data)))
         .catch(err => next(err));
     }
     
@@ -33,7 +33,7 @@ class BaseController {
     fetchById(req, res, next) {
         this.getService()
         .fetchById(req.params.id)
-        .then(data => res.json(buildResponse(data)))
+        .then(data => res.json(ResponseFormatter.format(data)))
         .catch(err => next(err));
     }
     
@@ -47,7 +47,7 @@ class BaseController {
     create(req, res, next) {
         this.getService()
         .create(req.body)
-        .then(data => res.status(HttpStatus.CREATED).json(buildResponse(data)))
+        .then(data => res.status(HttpStatus.CREATED).json(ResponseFormatter.format(data)))
         .catch(err => next(err));
     }
     
@@ -61,7 +61,7 @@ class BaseController {
     update(req, res, next) {
         this.getService()
         .update(req.params.id, req.body)
-        .then(data => res.json(buildResponse(data)))
+        .then(data => res.json(ResponseFormatter.format(data)))
         .catch(err => next(err));
     }
     
