@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
 import { readFileSync } from "fs";
 import path from "path";
-import { badData } from "boom";
+import { badData } from "@hapi/boom";
 
 class JwtUtil{
 
-    static async createToken(data = {}, key= process.env.PRIVATE_KEY){
+    static createToken(data = {}, key= process.env.PRIVATE_KEY){
         if(Object.keys(data).length){
             try{
                 var privateKEY  = readFileSync(path.join(process.cwd(), process.env.PUBLIC_KEY || "keys/jwtRS256.pem"), 'utf8');
@@ -14,14 +14,10 @@ class JwtUtil{
                     algorithm: "HS256" 
                 });
             }catch(err){
-                // throw new HttpException(404, speeches.UNABLE_TO_CREATE_TOKEN, err);
-                return new Promise((resolve, reject)=>{
-                    reject(err);
-                });
+                return err;
             }
-            
         }else{
-            throw badData("payload empty while creating token");
+            return badData("payload empty while creating token");
         }
     }
     static getJwtPublicKey(){
@@ -29,30 +25,16 @@ class JwtUtil{
             const publicKEY  = readFileSync(path.join(process.cwd(), process.env.PRIVATE_KEY || "keys/jwtRS256.pem"), 'utf8');
             return publicKEY;
         }catch(err){
-            logger.info(err);
+            return err;
         }
-        return null;
     }
     
-    static  async validateToken(token){
+    static async validateToken(token){
         try{
             const publicKEY  = readFileSync(path.join(process.cwd(), process.env.PRIVATE_KEY || "keys/jwtRS256.pem"), 'utf8');
-            return new Promise((resolve, reject)=>{
-                jwt.verify(
-                    token, 
-                    publicKEY,(err, result)=>{
-                        if(err){
-                            reject(err);
-                        }else{
-                            resolve(result);
-                        }
-                });
-            })
+            return await jwt.verify(token,publicKEY);
         }catch(err){
-            return new Promise((resolve, reject)=>{
-                console.log("-------------------------------------");
-                reject(err);
-            });
+            return err;
         }
     }
 

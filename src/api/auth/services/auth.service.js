@@ -1,17 +1,17 @@
-import { badRequest, notFound } from "boom";
+import { badRequest, notFound } from "@hapi/boom";
 import UserModel from "./../models/users.model"
 
 class AuthService {
 
 
     login(req,res,next){
-        const {username,password,role} = req.body;
+        const {email,password,role} = req.body;
         if(!email || !password){
             throw badRequest()
         }
         const userRes = UserModel.findOne({
             where: {
-                username: username,
+                email: email,
                 password: await bcrypt.hashSync(password, process.env.SALT || baseConfig.SALT),
                 role: role
             }
@@ -20,6 +20,8 @@ class AuthService {
         if(!userRes){
             throw notFound();
         }
+
+
     }
 
 }

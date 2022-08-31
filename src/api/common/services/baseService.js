@@ -1,4 +1,3 @@
-import { Boom, conflict, notFound }  from 'boom';
 
 class BaseService{
 

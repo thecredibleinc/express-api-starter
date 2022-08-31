@@ -1,6 +1,6 @@
 import passport from 'passport';
 const { roleRights } = require('../config/roles');
-import {unauthorized,forbidden} from 'boom'
+import {unauthorized,forbidden} from '@hapi/boom'
 
 const verifyCallback = (req, resolve, reject, requiredRights) => async (err, user, info) => {
   if (err || info || !user) {
