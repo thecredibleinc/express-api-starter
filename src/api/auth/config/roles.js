@@ -5,10 +5,16 @@ const allRoles = {
   };
 
   const allActions = {
-    'getUsers':2 ,
-    'manageUsers':2
+    getUsers:'getUsers',
+    manageUsers:'manageUsers'
   }
   
+  const allActionsWithLevel = {
+    [allActions.getUsers]:3,
+    [[allActions.manageUsers]]:1
+  }
+  
+
   const roles = Object.keys(allRoles);
   const roleRights = new Map(Object.entries(allRoles));
   const actionRights = new Map(Object.entries(allActions));
@@ -18,5 +24,6 @@ const allRoles = {
     roleRights,
     actionRights,
     allRoles,
-    allActions
+    allActions,
+    allActionsWithLevel
   };

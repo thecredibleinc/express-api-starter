@@ -1,6 +1,6 @@
 import passport from 'passport';
 
-const { roleRights,allActions,allRoles } = require('../config/roles');
+const { roleRights,allActionsWithLevel,allRoles } = require('../config/roles');
 import {unauthorized,forbidden,badImplementation} from '@hapi/boom'
 import  { localization } from '../../../utils/localization/localization.util';
 import { localeKeys } from '../../../utils/localization/localeKeys.util';
@@ -13,7 +13,7 @@ const verifyCallback = (req, resolve, reject, requiredRights) => async (err, use
 
   if (requiredRights.length) {
     const userRoleLevel = allRoles[user.role]
-    const requiredActionLevel = allActions[requiredRights];
+    const requiredActionLevel = allActionsWithLevel[requiredRights];
     if(!requiredActionLevel){
       reject(badImplementation(localization(localeKeys.AUTH_MIDDLEWARE_INVALID_ACTION)));
     }

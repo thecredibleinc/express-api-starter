@@ -1,6 +1,8 @@
 import { Router } from 'express';
+import { allActions } from '../config/roles';
 import UserController from '../controllers/user.controller';
 import { authMiddleware } from '../middlewares/auth.middleware';
+import { findUser, userValidator } from '../validators/user.vallidator';
 
 const router = Router();
 
@@ -9,7 +11,7 @@ const controller =  new UserController();
 /**
  * GET /api/users
  */
- router.get('/', authMiddleware("getUsers") ,(req,res,next)=>controller.fetchAll(req,res,next));
+ router.get('/', authMiddleware(allActions.getUsers) ,(req,res,next)=>controller.fetchAll(req,res,next));
  /**
  * GET /api/users
  */
@@ -18,33 +20,28 @@ const controller =  new UserController();
  /**
   * GET /api/users/:id
   */
- router.get('/:id',(req,res,next)=>controller.fetchById(req,res,next));
+ router.get('/:id',authMiddleware(allActions.getUsers),(req,res,next)=>controller.fetchById(req,res,next));
  
  /**
   * POST /api/users
   * public api ( register)
   */
- router.post('/', (req,res,next)=>controller.create(req,res,next));
+ router.post('/',authMiddleware(allActions.manageUsers), userValidator,(req,res,next)=>controller.create(req,res,next));
  
- /**
-  * POST /api/users/signin
-  * public api ( register)
-  */
- router.post('/signin',(req,res,next)=> controller.signin(req,res,next));
  
  /**
   * PUT /api/users/:id
   */
- router.put('/:id',(req, res, next) => jwtMiddleware(req, res, next) ,(req,res,next)=>controller.update(req,res,next));
+ router.put('/:id',authMiddleware(allActions.manageUsers),findUser,userValidator,(req,res,next)=>controller.update(req,res,next));
  
  /**
   * DELETE /api/users/:id
   */
- router.delete('/' , (req,res,next)=>controller.delete(req,res,next));
+ router.delete('/' ,authMiddleware(allActions.manageUsers), (req,res,next)=>controller.delete(req,res,next));
 
  /**
   * Hard DELETE /api/users/:id
   */
-  router.delete('/hardDelete' , (req,res,next)=>controller.destroy(req,res,next));
+  router.delete('/hardDelete' , authMiddleware(allActions.manageUsers),(req,res,next)=>controller.destroy(req,res,next));
  
  export default router;
