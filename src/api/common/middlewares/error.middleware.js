@@ -1,10 +1,6 @@
 import HttpStatus from 'http-status-codes';
-
-import logger from '../../../utils/logger';
-import buildError from '../../../utils/build_error';
-import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
-import logger from '../../../utils/logger';
-import { constents } from '../configs/constents.config';
+import buildError from '../../../utils/build_error.util';
+import logger from '../../../utils/logger.util';
 import ResponseFormatter from '../../../utils/responseFormatter.util';
 
 /**
@@ -68,7 +64,7 @@ export const bodyParser = async (err, req, res, next) => {
  * @param  {Function} next
  */
 export const genericErrorHandler = async (err, req, res, next) => {
-  await logger.info(constents.log_levels.list.ERROR, `${err.message}: ${err}`, req, res);
+  await logger.error(`${err.message}: ${err}`, req, res);
   const error = buildError(err);
   res.status(error.code).send(ResponseFormatter.format(err,err.code))
 }

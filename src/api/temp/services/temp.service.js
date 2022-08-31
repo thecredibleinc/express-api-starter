@@ -11,3 +11,5 @@ class TempService extends BaseService{
     }
 
 }
+
+export default TempService;

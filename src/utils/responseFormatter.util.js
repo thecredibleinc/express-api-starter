@@ -11,10 +11,14 @@ class ResponseFormatter{
  * @param   {Error} err
  * @returns {Object}
  */
- static format(dataValue,status=HttpStatus.OK) {
+ static format(dataValue,status=HttpStatus.OK,arg_msg=null) {
+    var msgToDisplay = HttpStatus.getStatusText(status)
+    if(arg_msg){
+        msgToDisplay = arg_msg;
+    }
     return {
         code: status,
-        message: HttpStatus.getStatusText(status),
+        message: msgToDisplay,
         data: dataValue
     }
 }

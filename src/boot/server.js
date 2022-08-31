@@ -8,11 +8,11 @@ import compression from 'compression'
 import passport from 'passport';
 import xss from 'xss-clean';
 import routesV1 from '../routes/v1/routes';
-import {notFound ,errorHandler} from '../api/common/middlewares/error.middleware';
+import {notFound ,genericErrorHandler} from '../api/common/middlewares/error.middleware';
 import  authLimiter from './../api/common/middlewares/rateLimiter.middleware';
 import  { jwtStrategy } from '../api/auth/config/passport';
 import db from './../utils/dbconnection.util'
-import logger from './../utils/logger'
+import logger from '../utils/logger.util'
 const server = express();
 
 //set app port and host 
@@ -71,6 +71,6 @@ if (process.env.NODE_ENV === 'production') {
 server.use('/api/v1', routesV1);
 
 server.use(notFound);
-server.use(errorHandler);
+server.use(genericErrorHandler);
 
 export default server;

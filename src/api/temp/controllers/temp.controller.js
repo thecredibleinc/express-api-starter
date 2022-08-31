@@ -1,6 +1,8 @@
  import TempModel from './../models/temp.model'
  import BaseController from './../../common/controllers/baseController'
- const service = new TempService()
+ import TempService from '../services/temp.service'
+ 
+ const service = new TempService();
  class TempController extends BaseController{
 
     getService(){

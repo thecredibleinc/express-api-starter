@@ -1,4 +1,4 @@
-import { Boom, conflict, notFound }  from '@hapi/boom';
+import { Boom, conflict, notFound }  from 'boom';
 
 class BaseService{
 

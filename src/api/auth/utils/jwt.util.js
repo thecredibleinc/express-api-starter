@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { readFileSync } from "fs";
 import path from "path";
+import { badData } from "boom";
 
 class JwtUtil{
 
@@ -20,12 +21,13 @@ class JwtUtil{
             }
             
         }else{
-            throw 
+            throw badData("payload empty while creating token");
         }
     }
     static getJwtPublicKey(){
         try{
             const publicKEY  = readFileSync(path.join(process.cwd(), process.env.PRIVATE_KEY || "keys/jwtRS256.pem"), 'utf8');
+            return publicKEY;
         }catch(err){
             logger.info(err);
         }
