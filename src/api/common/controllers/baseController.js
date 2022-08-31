@@ -16,11 +16,13 @@ class BaseController {
      * @param {Object} res
      * @param {Function} next
      */
-    fetchAll(req, res, next) {
-        this.getService()
-        .fetchAll()
-        .then(data => res.json(ResponseFormatter.format(data)))
-        .catch(err => next(err));
+    async fetchAll(req, res, next) {
+        try{
+            const data = await this.getService().fetchAll()
+            res.json(ResponseFormatter.format(data))
+        }catch(err){
+            next(err)
+        }
     }
     
     /**
@@ -30,11 +32,13 @@ class BaseController {
      * @param {Object} res
      * @param {Function} next
      */
-    fetchById(req, res, next) {
-        this.getService()
-        .fetchById(req.params.id)
-        .then(data => res.json(ResponseFormatter.format(data)))
-        .catch(err => next(err));
+    async fetchById(req, res, next) {
+        try{
+            const data = await this.getService().fetchById(req.params.id)
+            res.json(ResponseFormatter.format(data))
+        }catch(err){
+            next(err)
+        }
     }
     
     /**
@@ -44,11 +48,13 @@ class BaseController {
      * @param {Object} res
      * @param {Function} next
      */
-    create(req, res, next) {
-        this.getService()
-        .create(req.body)
-        .then(data => res.status(HttpStatus.CREATED).json(ResponseFormatter.format(data)))
-        .catch(err => next(err));
+    async create(req, res, next) {
+        try{
+            const data = await this.getService().create(req.body)
+            res.status(HttpStatus.CREATED).json(ResponseFormatter.format(data))
+        }catch(err){
+            next(err)
+        }
     }
     
     /**
@@ -58,11 +64,13 @@ class BaseController {
      * @param {Object} res
      * @param {Function} next
      */
-    update(req, res, next) {
-        this.getService()
-        .update(req.params.id, req.body)
-        .then(data => res.json(ResponseFormatter.format(data)))
-        .catch(err => next(err));
+    async update(req, res, next) {
+        try{
+            const data = await this.getService().update(req.params.id, req.body);
+            res.json(ResponseFormatter.format(data))
+        }catch(err){
+            next(err)
+        }
     }
     
     /**
@@ -72,11 +80,13 @@ class BaseController {
      * @param {Object} res
      * @param {Function} next
      */
-    delete(req, res, next) {
-        this.getService()
-        .destroy(req.body)
-        .then(data => res.status(HttpStatus.OK).json(buildResponse(data)))
-        .catch(err => next(err));
+    async delete(req, res, next) {
+        try{
+            const data = await this.getService().destroy(req.body);
+            res.status(HttpStatus.OK).json(buildResponse(data))
+        }catch(err){
+            next(err)
+        }
     }
 
     /**
@@ -86,11 +96,13 @@ class BaseController {
      * @param {Object} res
      * @param {Function} next
      */
-    destroy(req, res, next) {
-        this.getService()
-        .destroy(req.body,true)
-        .then(data => res.status(HttpStatus.OK).json(buildResponse(data)))
-        .catch(err => next(err));
+    async destroy(req, res, next) {
+        try{
+            await this.getService().destroy(req.body,true)
+            res.status(HttpStatus.OK).json(buildResponse(data))
+        }catch(err){
+            next(err)
+        }
     }
 }
 
