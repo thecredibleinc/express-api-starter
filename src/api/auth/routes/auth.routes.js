@@ -6,8 +6,9 @@ const router = Router();
 const controller =  new AuthController();
 
 /**
- * GET /api/temps
+ * GET /api/login
  */
- router.get('/' ,(req,res,next)=>controller.fetchAll(req,res,next));
+ router.post('/login' ,(req,res,next)=>controller.login(req,res,next));
+ router.post('/register' ,(req,res,next)=>controller.register(req,res,next));
 
  export default router;

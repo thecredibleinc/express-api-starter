@@ -1,3 +1,4 @@
+import ResponseFormatter from '../../../utils/responseFormatter.util';
 import BaseController from './../../common/controllers/baseController'
 import AuthService from './../services/auth.service'
 const service = new AuthService()
@@ -8,17 +9,22 @@ class AuthController {
     }
 
     async login(req,res,next){
-        const result = await service.login(req,res,next);
-           
-        
+        try{
+            const data = await service.login(req,res,next);
+            res.json(ResponseFormatter.format(data));
+        }catch(err){
+            next(err)
+        }
     }
 
-    register(req,res,next){
-
+    async register(req,res,next){
+        try{
+            const data = await service.register(req,res,next);
+            res.json(ResponseFormatter.format(data));
+        }catch(err){
+            next(err)
+        }
     }
-
-    login(req,res,next){
-
-    }
-
 }
+
+export default AuthController;

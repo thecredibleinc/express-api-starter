@@ -30,11 +30,12 @@ class UserModel extends BaseModel{
     },
     profile_photo: {
       type: DataTypes.STRING,
-      allowNull:false
+      allowNull:true
     },
     gender: {
       type: DataTypes.STRING,
-      allowNull:false
+      allowNull:true,
+      defaultValue:"MALE"
     },
     password: {
         type: DataTypes.STRING,

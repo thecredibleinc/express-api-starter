@@ -64,7 +64,8 @@ export const bodyParser = async (err, req, res, next) => {
  * @param  {Function} next
  */
 export const genericErrorHandler = async (err, req, res, next) => {
-  await logger.error(`${err.message}: ${err}`, req, res);
+  // await logger.error(`${err.message}: ${err}`, req, res);
+  console.log(err);
   const error = buildError(err);
-  res.status(error.code).send(ResponseFormatter.format(err,err.code))
+  res.status(error.code).send(ResponseFormatter.format(err,error.code,err.message))
 }
