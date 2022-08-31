@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import UserController from '../controllers/user.controller';
+import { authMiddleware } from '../middlewares/auth.middleware';
 
 const router = Router();
 
@@ -8,7 +9,7 @@ const controller =  new UserController();
 /**
  * GET /api/users
  */
-//  router.get('/', jwtMiddleware ,(req,res,next)=>controller.fetchAll(req,res,next));
+ router.get('/', authMiddleware("getUsers") ,(req,res,next)=>controller.fetchAll(req,res,next));
  /**
  * GET /api/users
  */

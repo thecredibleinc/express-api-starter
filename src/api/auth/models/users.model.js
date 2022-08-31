@@ -43,8 +43,8 @@ class UserModel extends BaseModel{
         // select: false
     },
     role: {
-        type: DataTypes.ENUM(['ADMIN','USER','STAFF']),
-        defaultValue: 'ADMIN'
+        type: DataTypes.ENUM(['admin','user','staff']),
+        defaultValue: 'admin'
     },
   }
 }

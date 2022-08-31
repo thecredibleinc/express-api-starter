@@ -1,6 +1,7 @@
 import passport from 'passport';
-const { roleRights } = require('../config/roles');
-import {unauthorized,forbidden} from '@hapi/boom'
+
+const { roleRights,allActions,allRoles } = require('../config/roles');
+import {unauthorized,forbidden,badImplementation} from '@hapi/boom'
 
 const verifyCallback = (req, resolve, reject, requiredRights) => async (err, user, info) => {
   if (err || info || !user) {
@@ -9,8 +10,13 @@ const verifyCallback = (req, resolve, reject, requiredRights) => async (err, use
   req.user = user;
 
   if (requiredRights.length) {
-    const userRights = roleRights.get(user.role);
-    const hasRequiredRights = requiredRights.every((requiredRight) => userRights.includes(requiredRight));
+    const userRoleLevel = allRoles[user.role]
+    const requiredActionLevel = allActions[requiredRights];
+    if(!requiredActionLevel){
+      reject(badImplementation("Wrong Required Action passed.. contact support"));
+    }
+    // const hasRequiredRights = requiredRights.every((requiredRight) => userRights.includes(requiredRight));
+    const hasRequiredRights =  userRoleLevel <= requiredActionLevel
     if (!hasRequiredRights && req.params.userId !== user.id) {
       return reject(forbidden("Forbidden"));
     }
@@ -19,7 +25,7 @@ const verifyCallback = (req, resolve, reject, requiredRights) => async (err, use
   resolve();
 };
 
-const authMiddleware = (...requiredRights) => async (req, res, next) => {
+export const authMiddleware = (...requiredRights) => async (req, res, next) => {
   return new Promise((resolve, reject) => {
     passport.authenticate('jwt', { session: false }, verifyCallback(req, resolve, reject, requiredRights))(req, res, next);
   })
@@ -27,4 +33,3 @@ const authMiddleware = (...requiredRights) => async (req, res, next) => {
     .catch((err) => next(err));
 };
 
-module.exports = authMiddleware;
