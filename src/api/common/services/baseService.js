@@ -15,36 +15,13 @@ class BaseService{
    *
    * @returns {Promise}
    */
-  fetchAll(options) {
-    options = this.sanitizeOptions(options)
-    return this.getModel().fetchAll(options);
-  }
-
-  /**
-   * Get all resources.
-   *
-   * @returns {Promise}
-   */
-  fetchPage(options) {
-    options = this.sanitizeOptions(options)
-    return this.getModel().fetchPage(options);
-  }
-
-
-  /**
-   * Get a resource.
-   *
-   * @param   {Number|String}  id
-   * @returns {Promise}
-   */
-  fetchById(id,options) {
-    options = this.sanitizeOptions(options)
-    return this.getModelInstance({ id })
-      .fetch(options)
-      .then(resource => resource)
-      .catch(this.getModel().NotFoundError, () => {
-        throw notFound('Resource not found');
-      });
+  async fetchAll(options) {
+    try{
+      options = this.sanitizeOptions(options)
+      return  await this.getModel().findAll(options);
+    }catch(err){
+      return err;
+    }
   }
 
   /**
@@ -53,14 +30,58 @@ class BaseService{
    * @param {String} param 
    * @param {String} paramvalue 
    */
-  fetchByParam(req,options){
-    options = this.sanitizeOptions(options)
-    return  this.getModel().where({[req.param]:[req.paramvalue]})
-    .fetch()
-    .then(resource=>resource)
-    .catch(this.getModel().NotFoundError,()=>{
-      throw notFound('Resource not found for '+req.param+" = "+req.paramvalue);
-    })
+  async fetchOne(options){
+    try{
+      options = this.sanitizeOptions(options)
+      return await this.getModel().findOne(options)
+    }catch(err){
+      return err;
+    } 
+  }
+
+  /**
+   * Get a resource.
+   *
+   * @param   {Number|String}  id
+   * @returns {Promise}
+   */
+  async fetchById(id) {
+    try{
+      return await this.getModel().findByPk(id)
+    }catch(err){
+      return err;
+    }
+  }
+
+  // /**
+  //  * Get all resources.
+  //  *
+  //  * @returns {Promise}
+  //  */
+  // fetchPage(options) {
+  //   try{
+  //     options = this.sanitizeOptions(options)
+  //     return this.getModel().fetchPage(options);
+  //   }catch(err){
+  //     return err;
+  //   }
+    
+  // }
+
+  
+
+  /**
+   * Create new resource.
+   *
+   * @param   {Object}  resource
+   * @returns {Promise}
+   */
+  async create(resourceAsObj) {
+    try{
+      return await this.getModel().create(resourceAsObj);
+    }catch(err){
+      return err;
+    }
   }
 
   /**
@@ -69,9 +90,12 @@ class BaseService{
    * @param   {Object}  resource
    * @returns {Promise}
    */
-  create(resource,options) {
-    options = this.sanitizeOptions(options)
-    return this.getModelInstance(resource).save(null,options);
+   async createBulk(resourcesArr) {
+    try{
+      return await this.getModel().bulkCreate(resourcesArr);
+    }catch(err){
+      return err;
+    }
   }
 
 
@@ -82,31 +106,35 @@ class BaseService{
    * @param   {Object}         resource
    * @returns {Promise}
    */
-  update(id, resource,options) {
-    options = this.sanitizeOptions(options)
-    return this.getModelInstance({ id }).save(resource,options);
+  async update(id,resource,options) {
+    try{
+      options = this.sanitizeOptions(options)
+      return this.getMode().uodate(resource,options);
+    }catch(err){
+      return err;
+    }
+    
   }
 
+
   /**
-   * Delete a resource.
+   * delete a resource.
+   * by defaults it only soft deletes
    *
    * @param   {Number|String}  id
    * @returns {Promise}
    */
-  deleteSoft(id,options) {
-    options = this.sanitizeOptions(options)
-    return this.getModelInstance({ id }).fetch(options).then(resource => resource.destroy(options));
-  }
-
-  /**
-   * Destroy a resource.
-   *
-   * @param   {Number|String}  id
-   * @returns {Promise}
-   */
-  destroy(id) {
-    options = this.sanitizeOptions(options)
-    return this.getModelInstance({ id }).fetch(options).then(resource => resource.destroy(options));
+  async delete(options,hardDelete = false) {
+    try{
+      options = this.sanitizeOptions(options)
+      options = {
+        ...options,
+        force:hardDelete
+      }
+      return this.getModel().destroy(options);
+    }catch(err){
+      return err;
+    }
   }
 
   sanitizeOptions(options){

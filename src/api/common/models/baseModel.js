@@ -1,9 +1,9 @@
-import bookshelf from '../db';
-
+import db from '../../../utils/dbconnection.util'
+import { Model } from 'sequelize';
 /**
  * Base model.
  */
-class BaseModel extends bookshelf.Model {
+class BaseModel extends Model{
   
   /**
    * Table has timestamps.
@@ -11,11 +11,25 @@ class BaseModel extends bookshelf.Model {
   get hasTimestamps() {
     return true;
   }
+  
+
+  static commonTableAttrs(){
+    return {
+    sequelize:db, // We need to pass the connection instance
+    timestamps: true,
+    paranoid: true,
+    underscored: true,
+    // If you want to give a custom name to the deletedAt column
+    deletedAt: 'deleted_at',
+    updatedAt: 'updated_at',
+    createdAt: 'created_at',
+    }
+  }
 
   /**
    * 
    */
-  get hidden(){
+  static hidden(){
     return ['password','deleted_at'];
   }
 

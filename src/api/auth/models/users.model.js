@@ -1,11 +1,10 @@
-import {Model,DataTypes} from 'sequelize'
-import db from '../../../utils/dbconnection.util';
+import {DataTypes} from 'sequelize'
+
 import bcrypt from 'bcrypt'
-class UserModel extends Model{
-
-}
-
-UserModel.init({
+import BaseModel from '../../common/models/baseModel';
+class UserModel extends BaseModel{
+  static tableName = "users"
+  static structure = {
     // Model attributes are defined here
     id: {
         type: DataTypes.INTEGER,
@@ -46,14 +45,13 @@ UserModel.init({
         type: DataTypes.ENUM(['ADMIN','USER','STAFF']),
         defaultValue: 'ADMIN'
     },
-  }, {
+  }
+}
+
+UserModel.init(UserModel.structure, {
     // Other model options go here
-    sequelize:db, // We need to pass the connection instance
-    tableName: 'users',
-    timestamps:true,
-    updatedAt: 'updated_at',
-    createdAt: 'created_at',
-    deletedAt: 'deleted_at',
+    ...BaseModel.commonTableAttrs(),
+    tableName: UserModel.tableName,
     hooks: {
       beforeCreate: async (user) => {
           if (user.password) {

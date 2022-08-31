@@ -74,7 +74,7 @@ class BaseController {
      */
     delete(req, res, next) {
         this.getService()
-        .deleteSoft(req.params.id)
+        .destroy(req.body)
         .then(data => res.status(HttpStatus.OK).json(buildResponse(data)))
         .catch(err => next(err));
     }
@@ -88,7 +88,7 @@ class BaseController {
      */
     destroy(req, res, next) {
         this.getService()
-        .destroy(req.params.id)
+        .destroy(req.body,true)
         .then(data => res.status(HttpStatus.OK).json(buildResponse(data)))
         .catch(err => next(err));
     }
