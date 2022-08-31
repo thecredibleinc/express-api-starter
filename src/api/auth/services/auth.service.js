@@ -1,16 +1,16 @@
-import { boomify,badRequest, notFound } from "@hapi/boom";
+import { badRequest, notFound } from "@hapi/boom";
 import bcrypt from 'bcrypt';
 import UserModel from "./../models/users.model"
 import JwtUtil from '../utils/jwt.util'
-import speeches from '../../../utils/constants.util'
-import { Model } from "sequelize";
+import  {localization } from "../../../utils/localization/localization.util";
+import { localeKeys } from "../../../utils/localization/localeKeys.util";
 class AuthService {
 
 
     async login(req,res,next){
         const {email,password,role} = req.body;
         if(!email || !password || !role){
-            throw badRequest()
+            throw badRequest(localization(localeKeys.LOGIN_API_REQUIRED_FIELDS))
         }
         const userRes = await UserModel.findOne({
             where: {
@@ -39,7 +39,7 @@ class AuthService {
     async register(req,res,next){
         const {email,password,role} = req.body;
         if(!email || !password || !role){
-            throw badRequest(speeches.LOGIN_API_REQUIRED_FEILDS)
+            throw badRequest(localization(localeKeys.LOGIN_API_REQUIRED_FIELDS))
         }
         const userRes = await UserModel.findOne({
             where: {
@@ -52,7 +52,7 @@ class AuthService {
             throw userRes;
         }
         else if(userRes){
-            throw badRequest(speeches.ALREADY_EXISTS);
+            throw badRequest(localization(localeKeys.ALREADY_EXISTS));
         }
 
         const result = await UserModel.create(req.body)

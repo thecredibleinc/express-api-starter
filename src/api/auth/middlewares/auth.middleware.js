@@ -2,10 +2,12 @@ import passport from 'passport';
 
 const { roleRights,allActions,allRoles } = require('../config/roles');
 import {unauthorized,forbidden,badImplementation} from '@hapi/boom'
+import  { localization } from '../../../utils/localization/localization.util';
+import { localeKeys } from '../../../utils/localization/localeKeys.util';
 
 const verifyCallback = (req, resolve, reject, requiredRights) => async (err, user, info) => {
   if (err || info || !user) {
-    return reject(unauthorized("Authentication Failure"));
+    return reject(unauthorized(localization(localeKeys.AUTHORIZATION_FAILURE)));
   }
   req.user = user;
 
@@ -13,12 +15,12 @@ const verifyCallback = (req, resolve, reject, requiredRights) => async (err, use
     const userRoleLevel = allRoles[user.role]
     const requiredActionLevel = allActions[requiredRights];
     if(!requiredActionLevel){
-      reject(badImplementation("Wrong Required Action passed.. contact support"));
+      reject(badImplementation(localization(localeKeys.AUTH_MIDDLEWARE_INVALID_ACTION)));
     }
     // const hasRequiredRights = requiredRights.every((requiredRight) => userRights.includes(requiredRight));
     const hasRequiredRights =  userRoleLevel <= requiredActionLevel
     if (!hasRequiredRights && req.params.userId !== user.id) {
-      return reject(forbidden("Forbidden"));
+      return reject(forbidden(localization(localeKeys.FORBIDDEN)));
     }
   }
 

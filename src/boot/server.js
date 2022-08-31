@@ -13,8 +13,10 @@ import  authLimiter from './../api/common/middlewares/rateLimiter.middleware';
 import  { jwtStrategy } from '../api/auth/config/passport';
 import db from './../utils/dbconnection.util'
 import logger from '../utils/logger.util'
+import { setLocale } from '../utils/localization/localization.util';
 const server = express();
 
+setLocale("en-us");
 //set app port and host 
 const APP_PORT = (process.env.NODE_ENV === 'test' ? process.env.TEST_APP_PORT : process.env.APP_PORT) || process.env.PORT || '3000';
 const APP_HOST = process.env.APP_HOST || '0.0.0.0';
