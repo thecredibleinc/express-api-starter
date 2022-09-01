@@ -1,5 +1,5 @@
 import db from '../../../utils/dbconnection.util'
-import { Model } from 'sequelize';
+import { Model ,DataTypes} from 'sequelize';
 /**
  * Base model.
  */
@@ -12,6 +12,27 @@ class BaseModel extends Model{
     return true;
   }
   
+  static commonPropsForMigration(){
+    //add base types for all migration where all common fields will come from here 
+    return {
+      created_at: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: DataTypes.NOW,
+      },
+      updated_at: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: DataTypes.NOW,
+        onUpdate: new Date().toLocaleString()
+      },
+      deleted_at: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
+      },
+    }
+  }
 
   static commonTableAttrs(){
     return {
