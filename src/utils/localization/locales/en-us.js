@@ -4,5 +4,6 @@ export default {
     [localeKeys.ALREADY_EXISTS]:`ALREADY_EXISTS`,
     [localeKeys.LOGIN_API_REQUIRED_FIELDS]:`email and password are required`,
     [localeKeys.AUTHORIZATION_FAILURE]:"AUTHORIZATION_FAILURE",
-    [localeKeys.FORBIDDEN]:"FORBIDDEN"
+    [localeKeys.FORBIDDEN]:"FORBIDDEN",
+    [localeKeys.USER_NOT_FOUND]:"USER NOT FOUND"
   };

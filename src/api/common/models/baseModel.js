@@ -15,18 +15,18 @@ class BaseModel extends Model{
   static commonPropsForMigration(){
     //add base types for all migration where all common fields will come from here 
     return {
-      created_at: {
+      createdAt: {
         type: DataTypes.DATE,
         allowNull: true,
         defaultValue: DataTypes.NOW,
       },
-      updated_at: {
+      updatedAt: {
         type: DataTypes.DATE,
         allowNull: true,
         defaultValue: DataTypes.NOW,
         onUpdate: new Date().toLocaleString()
       },
-      deleted_at: {
+      deletedAt: {
         type: DataTypes.DATE,
         allowNull: true,
         defaultValue: null,
@@ -39,11 +39,11 @@ class BaseModel extends Model{
     sequelize:db, // We need to pass the connection instance
     timestamps: true,
     paranoid: true,
-    underscored: true,
+    // underscored: true,
     // If you want to give a custom name to the deletedAt column
-    deletedAt: 'deleted_at',
-    updatedAt: 'updated_at',
-    createdAt: 'created_at',
+    // deletedAt: 'deleted_at',
+    // updatedAt: 'updated_at',
+    // createdAt: 'created_at',
     }
   }
 

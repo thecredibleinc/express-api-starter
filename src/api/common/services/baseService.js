@@ -108,7 +108,10 @@ class BaseService{
   async update(id,resource,options) {
     try{
       options = this.sanitizeOptions(options)
-      return this.getMode().uodate(resource,options);
+      options.where ={
+        id:id
+      };
+      return await this.getModel().update(resource,options);
     }catch(err){
       return err;
     }
@@ -130,7 +133,7 @@ class BaseService{
         ...options,
         force:hardDelete
       }
-      return this.getModel().destroy(options);
+      return await this.getModel().destroy(options);
     }catch(err){
       return err;
     }

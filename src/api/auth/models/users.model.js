@@ -28,7 +28,7 @@ class UserModel extends BaseModel{
       allowNull:true
       // allowNull defaults to true
     },
-    profile_photo: {
+    profilePhoto: {
       type: DataTypes.STRING,
       allowNull:true
     },

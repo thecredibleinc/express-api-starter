@@ -1,4 +1,7 @@
+import { notFound } from '@hapi/boom';
 import Joi from 'joi';
+import { localeKeys } from '../../../utils/localization/localeKeys.util';
+import { localization } from '../../../utils/localization/localization.util';
 
 import validate from '../../../utils/validate.utils';
 import  UserService from '../services/user.service';
@@ -49,7 +52,15 @@ function userValidator(req, res, next) {
 function findUser(req, res, next) {
   return new UserService()
     .fetchById(req.params.id)
-    .then(() => next())
+    .then((user) => {
+      if(!user){
+        next(notFound(localization(localeKeys.USER_NOT_FOUND))) 
+      }else if (user instanceof Error){
+        next(user)
+      }else{
+        next()
+      }
+    })
     .catch(err => next(err));
 }
 
