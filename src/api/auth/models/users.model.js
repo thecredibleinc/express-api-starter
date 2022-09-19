@@ -21,7 +21,8 @@ class UserModel extends BaseModel{
     },
     email: { //TODO:encrypt
       type: DataTypes.STRING,
-      allowNull:false
+      allowNull:false,
+      unique:true
     },
     mobile: {//TODO:encrypt
       type: DataTypes.STRING,

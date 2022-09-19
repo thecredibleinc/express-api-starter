@@ -4,6 +4,9 @@ import tempROutes from './../../api/temp/routes/routes'
 import userRoutes from './../../api/auth/routes/user.routes'
 import authRoutes from './../../api/auth/routes/auth.routes'
 import FileRoutes from "../../api/files/routes/files.routes"
+
+// import routes
+
 const routesV1 = Router();
 routesV1.get('/', (req, res) => {
   res.json({
@@ -16,5 +19,4 @@ routesV1.use('/temp', tempROutes);
 routesV1.use('/users', userRoutes);
 
 new FileRoutes().setUpRoutes(routesV1)
-
 export default routesV1;

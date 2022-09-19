@@ -24,7 +24,8 @@
     "rollback:migration": "sequelize db:migrate:undo",
     "rollback:seed": "sequelize db:seed:undo",
     "make:seeder": "sequelize seed:create",
-    "make:migration": "sequelize migration:create"
+    "make:migration": "sequelize migration:create",
+    "scaffold:entity": "node -e 'require(\"./src/scaffolders/generate.js\").g()'"
   },
   "husky": {
     "hooks": {
@@ -127,7 +128,9 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "mocha": "^10.0.0",
+    "node-cmd": "^5.0.0",
     "nodemon": "^2.0.19",
+    "pluralize": "^8.0.0",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
     "supertest": "^6.2.4"
