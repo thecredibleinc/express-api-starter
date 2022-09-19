@@ -306,8 +306,8 @@ if (createTask.role) {
       
       let import_entity_role_file_literal = `import  { all${resourceDenormalized}Actions, all${resourceDenormalized}ActionsWithLevel } from "../../${resourceSingularized}/config/${resourceSingularized}.role";`
       // let route_literal = `router.use('/${resource}', ${resourceSingularized}Routes);`
-      let role_literal = `...all${resourceDenormalized}Actions,`;
-      let role_allActionsWithLevel_literal = `...all${resourceDenormalized}ActionsWithLevel,`;
+      let role_literal = `    ...all${resourceDenormalized}Actions,`;
+      let role_allActionsWithLevel_literal = `    ...all${resourceDenormalized}ActionsWithLevel,`;
 
       data = data.replace("\n\n"+role_literal, '');
       data = data.replace(import_entity_role_file_literal, '');
