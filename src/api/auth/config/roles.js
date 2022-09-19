@@ -1,3 +1,6 @@
+import  { allFileActions, allFileActionsWithLevel } from "../../files/config/file.role";
+// import roles
+
 const allRoles = {
     admin: 1,
     staff: 2,
@@ -6,12 +9,16 @@ const allRoles = {
 
   const allActions = {
     getUsers:'getUsers',
-    manageUsers:'manageUsers'
+    manageUsers:'manageUsers',
+    // allActions
+    ...allFileActions
   }
   
   const allActionsWithLevel = {
     [allActions.getUsers]:3,
-    [[allActions.manageUsers]]:1
+    [[allActions.manageUsers]]:1,
+    // allActionsWithLevel
+    ...allFileActionsWithLevel
   }
   
 
