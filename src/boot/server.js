@@ -14,6 +14,9 @@ import  { jwtStrategy } from '../api/auth/config/passport';
 import db from './../utils/dbconnection.util'
 import logger from '../utils/logger.util'
 import { setLocale } from '../utils/localization/localization.util';
+import formData from "express-form-data"
+import os from "os"
+import path from "path"
 const server = express();
 
 setLocale("en-us");
@@ -32,6 +35,22 @@ server.use(helmet());
 
 // parse json request body
 server.use(express.json());
+
+//file upload
+server.use(formData.parse({
+  uploadDir: os.tmpdir(),
+  autoClean: true
+}));
+// server.use(fileUpload(
+//   {
+//   limits: { fileSize: 50 * 1024 * 1024 },
+//   useTempFiles : true,
+//   tempFileDir : '/tmp/'
+// }
+// ));
+//serve static files as well as uploaded files
+server.use("/assets", express.static(path.join(process.cwd(), 'resources', 'static', 'uploads')));
+
 
 // parse urlencoded request body
 server.use(express.urlencoded({ extended: true }));

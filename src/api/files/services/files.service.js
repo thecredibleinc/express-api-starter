@@ -9,5 +9,4 @@ export default class FileService extends BaseService{
     getModel(){
         return FileModel;
     }
-
 }

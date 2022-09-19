@@ -10,7 +10,7 @@ class BaseController {
     }
 
     /**
-     * Get all users.
+     * Get all .
      *
      * @param {Object} req
      * @param {Object} res
@@ -26,7 +26,7 @@ class BaseController {
     }
     
     /**
-     * Get a user by its id.
+     * Get by its id.
      *
      * @param {Object} req
      * @param {Object} res
@@ -42,7 +42,7 @@ class BaseController {
     }
     
     /**
-     * Create a new user.
+     * Create new.
      *
      * @param {Object} req
      * @param {Object} res
@@ -58,7 +58,7 @@ class BaseController {
     }
     
     /**
-     * Update a user.
+     * Update.
      *
      * @param {Object} req
      * @param {Object} res
@@ -74,7 +74,7 @@ class BaseController {
     }
     
     /**
-     * Delete a user.
+     * Delete.
      *
      * @param {Object} req
      * @param {Object} res
@@ -90,7 +90,7 @@ class BaseController {
     }
 
     /**
-     * Delete a user.
+     * Delete.
      *
      * @param {Object} req
      * @param {Object} res

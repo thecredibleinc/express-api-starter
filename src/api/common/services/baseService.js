@@ -1,4 +1,6 @@
-
+import path from "path"
+import fs from "fs"
+import {getMimeType} from "../../../utils/file.utils"
 class BaseService{
 
     getModelInstance(attrsObj){
@@ -77,6 +79,7 @@ class BaseService{
    */
   async create(resourceAsObj) {
     try{
+      // console.log("resourceAsObj",resourceAsObj)
       return await this.getModel().create(resourceAsObj);
     }catch(err){
       return err;
@@ -145,6 +148,54 @@ class BaseService{
     }
     return options;
   }
+
+  async copyAllFiles(req,arg_filename_prefix=null,...argUploadFilePathRelative){
+    //copy attached file in assets/worksheets/responses and add its path in attachment variable
+    let result =  {errors:[],attachments:""}
+    if(!req.files){
+        return result;
+    }
+    const rawfiles = req.files;
+    const files = Object.values(rawfiles);
+    const file_key = Object.keys(rawfiles);
+    const reqData = req.body;
+    const errs = [];
+    let attachments = "";
+    for (const file_name of Object.keys(files)) {
+        const file = files[file_name];
+        let filename = file.path.split(path.sep).pop();
+        filename = ""+Date.now()+"_"+filename
+        if(arg_filename_prefix!=null){
+            filename = arg_filename_prefix+"_"+file.fieldName+"_"+filename
+        }
+        const targetResourcePath = path.join( ...argUploadFilePathRelative);
+        const targetPath = path.join(process.cwd(), 'resources', 'static', 'uploads', targetResourcePath,filename);
+        const copyResult = await fs.promises.copyFile(file.path, targetPath).catch(err=>{
+            console.log(err)
+            errs.push(`Error uploading file: ${file.originalFilename}`);
+        })
+        if(copyResult instanceof Error) {
+                console.log(copyResult)
+                errs.push(`Error uploading file: ${file.originalFilename}`);
+                // console.log(copyResult)
+                // throw internal(`Error uploading file: ${file.originalFilename}`) 
+                // next(internal(`Error uploading file: ${file.originalFilename}`))  
+        } else {
+                
+            // reqData[file.fieldName] = `/assets/${targetResourcePath}/${filename}`;
+            reqData["path"] = `/assets/${targetResourcePath}/${filename}`;
+            reqData["mimeType"] = getMimeType(filename);
+            reqData["location"] = 'local';//hard coded , change it to remote when u upload this to s3
+            // reqData['path'] = `/assets/${targetResourcePath}/${filename}`;
+            attachments  = attachments+`/assets/${targetResourcePath}/${filename},`
+            // console.log(attachments)
+        }
+    }
+    result.errors = errs;
+    result.attachments = attachments
+
+    return result;
+}
 
 }
 export default BaseService;
