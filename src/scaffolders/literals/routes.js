@@ -10,6 +10,10 @@ import CrudMiddleWareHolder from "../../common/middlewares/crudMiddlewareHolder"
 import BaseRoutes from "../../common/routes/base.routes"
 import {${resourceSingular}Validator,find${resourceDenormalized}} from "../validators/${resourceSingular}.validator"
 import ${resourceDenormalized}Controller from "../controllers/${resourceSingular}.controller"
+
+import { authMiddleware } from "../../auth/middlewares/auth.middleware"
+import { all${resourceDenormalized}Actions } from "../config/${resourceSingular}.role"
+
 class ${resourceDenormalized}Routes extends BaseRoutes {
     routerPath = "/${resource}";
     constructor(){
@@ -20,8 +24,12 @@ class ${resourceDenormalized}Routes extends BaseRoutes {
     }
     getMiddlewares(){
         const middlewareHolder = new CrudMiddleWareHolder();
-        middlewareHolder.createMiddleares = [${resourceSingular}Validator];
-        middlewareHolder.updateMiddleares= [find${resourceDenormalized},${resourceSingular}Validator];
+        middlewareHolder.findAllMiddlewares =[authMiddleware(all${resourceDenormalized}Actions.get${resourceDenormalized})] 
+        middlewareHolder.findOneMiddleares =[authMiddleware(all${resourceDenormalized}Actions.get${resourceDenormalized})] 
+        middlewareHolder.createMiddleares = [authMiddleware(all${resourceDenormalized}Actions.manage${resourceDenormalized}),postValidator];
+        middlewareHolder.updateMiddleares= [authMiddleware(all${resourceDenormalized}Actions.manage${resourceDenormalized}),find${resourceDenormalized},fileValidator];
+        middlewareHolder.deleteMiddleares = [authMiddleware(all${resourceDenormalized}Actions.manage${resourceDenormalized})];
+        middlewareHolder.destroyMiddleares = [authMiddleware(all${resourceDenormalized}Actions.manage${resourceDenormalized})];
         return middlewareHolder
     }
 

@@ -24,7 +24,8 @@ module.exports.g = function(res, next, options) {
     view: false,
     route: true,
     service: true,
-    validator: true
+    validator: true,
+    role:true,
   }
 
   // set literal path
@@ -36,6 +37,7 @@ module.exports.g = function(res, next, options) {
     router: './literals/routes.js',
     service: './literals/service',
     validator: './literals/validator',
+    role:'./literals/role'
   }
   
   if (options.api) {
@@ -280,6 +282,79 @@ if (createTask.validator) {
     //       console.log("completed scaffolding.");
     //   }
   }
+
+/// STEP 7. Generate Role file ///
+if (createTask.role) {
+  
+  log("\n");
+  log("# Generate Role file");
+
+  // Generate Role file
+
+  const role_filename = `${resourceSingularized}.role.js`;
+  const role_filepath = path.join(rootpath,'src',"api",resourceSingularized, 'config', role_filename);
+  const role_literal = require(literals.role)(resource);
+  makefile(role_filepath, role_literal, invoke_callback);
+  log('1. Check "role_filename" ~>', role_filename);
+  log('2. Check "role_filepath" ~>', role_filepath);
+  log('3. Check "role_literal" ~>', typeof role_literal === 'string');
+  
+  const authRolePath = path.join(rootpath, 'src', 'api','auth','config', 'roles.js');
+
+  function insertRole(rolepath) {
+    fs.readFile(rolepath, 'utf8', function(err, data) {
+      
+      let import_entity_role_file_literal = `import  { all${resourceDenormalized}Actions, all${resourceDenormalized}ActionsWithLevel } from "../../${resourceSingularized}/config/${resourceSingularized}.role";`
+      // let route_literal = `router.use('/${resource}', ${resourceSingularized}Routes);`
+      let role_literal = `...all${resourceDenormalized}Actions,`;
+      let role_allActionsWithLevel_literal = `...all${resourceDenormalized}ActionsWithLevel,`;
+
+      data = data.replace("\n\n"+role_literal, '');
+      data = data.replace(import_entity_role_file_literal, '');
+      data = data.replace(role_allActionsWithLevel_literal, '');
+
+      let splitByLine = data.split(/\n/);
+      let import_index = splitByLine.indexOf('// import roles');
+      let index = splitByLine.indexOf('// allActions');
+      let index_allActionWithLevels = splitByLine.indexOf('// allActionsWithLevel');
+      
+      // log(">. literals\n", index);
+      // log(">. literals\n", index_allActionWithLevels);
+      if (import_index === -1) { import_index = -1 }
+      if (index === -1) { index = 13 }
+      if (index_allActionWithLevels === -1) { index_allActionWithLevels = 23 }
+      
+      splitByLine.splice(index+2, 0, '{{role_literal}}');
+      splitByLine.splice(import_index + 1, 0, '{{import_entity_role_file_literal}}');
+      splitByLine.splice(index_allActionWithLevels+4, 0, '{{role_allActionsWithLevel_literal}}');
+      
+      let newdata = splitByLine.join("\n");
+      // log(">. literals\n", splitByLine);
+      newdata = newdata.replace('{{import_entity_role_file_literal}}', import_entity_role_file_literal);
+      newdata = newdata.replace('{{role_literal}}', role_literal);
+      newdata = newdata.replace('{{role_allActionsWithLevel_literal}}', role_allActionsWithLevel_literal);
+      // log(">. literals\n", role_literal);
+      // log(">. literals\n", role_allActionsWithLevel_literal);
+      log(">. authRolePath\n", authRolePath);
+
+      makefile(authRolePath, newdata, (err, inputs) => {
+        invoke_callback(err, inputs);
+        console.log("");
+      //   next();
+      });
+    });
+  }
+  
+  
+  if (fs.existsSync(authRolePath)) {
+    insertRole(authRolePath);
+  } 
+  // else {
+    // fs.writeFile(routerpath, '', 'utf8', err => {
+    //   insertRole(routerpath);
+    // })
+  // }
+}
 
   log("scaffolding completed.");
   

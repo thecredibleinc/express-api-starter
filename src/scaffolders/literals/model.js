@@ -30,11 +30,11 @@ const resourceDenormalized = string_.denormalizer(resource);
       tableName: ${resourceDenormalized}Model.tableName,
     }
     );
-  
+  //TODO:call associate method is any association is defined  
   
   export default ${resourceDenormalized}Model;
 
-//TODO:call associate method is any association is defined
+
   
 `;
 }
