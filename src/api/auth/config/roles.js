@@ -7,17 +7,17 @@ const allRoles = {
     player: 3
   };
 
+// allActions
   const allActions = {
     getUsers:'getUsers',
     manageUsers:'manageUsers',
-    // allActions
     ...allFileActions
   }
-  
+
+// allActionsWithLevel
   const allActionsWithLevel = {
     [allActions.getUsers]:3,
     [[allActions.manageUsers]]:1,
-    // allActionsWithLevel
     ...allFileActionsWithLevel
   }
   
