@@ -26,7 +26,7 @@ class ${resourceDenormalized}Routes extends BaseRoutes {
         const middlewareHolder = new CrudMiddleWareHolder();
         middlewareHolder.findAllMiddlewares =[authMiddleware(all${resourceDenormalized}Actions.get${resourceDenormalized})] 
         middlewareHolder.findOneMiddleares =[authMiddleware(all${resourceDenormalized}Actions.get${resourceDenormalized})] 
-        middlewareHolder.createMiddleares = [authMiddleware(all${resourceDenormalized}Actions.manage${resourceDenormalized}),${resourceSingular}ValidatorValidator];
+        middlewareHolder.createMiddleares = [authMiddleware(all${resourceDenormalized}Actions.manage${resourceDenormalized}),${resourceSingular}Validator];
         middlewareHolder.updateMiddleares= [authMiddleware(all${resourceDenormalized}Actions.manage${resourceDenormalized}),find${resourceDenormalized},${resourceSingular}Validator];
         middlewareHolder.deleteMiddleares = [authMiddleware(all${resourceDenormalized}Actions.manage${resourceDenormalized})];
         middlewareHolder.destroyMiddleares = [authMiddleware(all${resourceDenormalized}Actions.manage${resourceDenormalized})];
