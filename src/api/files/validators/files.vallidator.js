@@ -8,10 +8,10 @@ import  FilesService from '../services/files.service';
 
 // Validation schema
 const schema = Joi.object({
-  mimeType: Joi.string()
-    .label('mimeType')
-    .max(90)
-    .required(),
+  // mimeType: Joi.string()
+  //   .label('mimeType')
+  //   .max(90)
+  //   .required(),
 });
 
 /**
