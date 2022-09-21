@@ -82,8 +82,8 @@ class BaseController {
      */
     async delete(req, res, next) {
         try{
-            const data = await this.getService().destroy(req.body);
-            res.status(HttpStatus.OK).json(buildResponse(data))
+            const data = await this.getService().delete(req.params.id,req.body);
+            res.json(ResponseFormatter.format(data))
         }catch(err){
             next(err)
         }
@@ -98,8 +98,8 @@ class BaseController {
      */
     async destroy(req, res, next) {
         try{
-            await this.getService().destroy(req.body,true)
-            res.status(HttpStatus.OK).json(buildResponse(data))
+            const data = await this.getService().delete(req.params.id,req.body,true)
+            res.json(ResponseFormatter.format(data))
         }catch(err){
             next(err)
         }

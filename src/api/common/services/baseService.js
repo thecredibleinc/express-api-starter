@@ -46,9 +46,9 @@ class BaseService{
    * @param   {Number|String}  id
    * @returns {Promise}
    */
-  async fetchById(id) {
+  async fetchById(id,options) {
     try{
-      return await this.getModel().findByPk(id)
+      return await this.getModel().findByPk(id,options)
     }catch(err){
       return err;
     }
@@ -77,10 +77,10 @@ class BaseService{
    * @param   {Object}  resource
    * @returns {Promise}
    */
-  async create(resourceAsObj) {
+  async create(resourceAsObj,options) {
     try{
       // console.log("resourceAsObj",resourceAsObj)
-      return await this.getModel().create(resourceAsObj);
+      return await this.getModel().create(resourceAsObj,options);
     }catch(err){
       return err;
     }
@@ -129,11 +129,14 @@ class BaseService{
    * @param   {Number|String}  id
    * @returns {Promise}
    */
-  async delete(options,hardDelete = false) {
+  async delete(id,options,hardDelete = false) {
     try{
       options = this.sanitizeOptions(options)
       options = {
         ...options,
+        where:{
+          id:id,
+        },
         force:hardDelete
       }
       return await this.getModel().destroy(options);

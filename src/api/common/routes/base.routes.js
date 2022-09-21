@@ -65,13 +65,13 @@ class BaseRoutes {
       * DELETE /api/users/:id
       * delete
       */
-    this.router.delete('/' ,middlewareHolder.deleteMiddleares ,(req,res,next)=>this.getController().delete(req,res,next));
+    this.router.delete('/:id' ,middlewareHolder.deleteMiddleares ,(req,res,next)=>this.getController().delete(req,res,next));
 
      /**
       * Hard DELETE /api/users/:id
       * destroy
       */
-    this.router.delete('/hardDelete' ,middlewareHolder.destroyMiddleares,(req,res,next)=>this.getController().destroy(req,res,next));
+    this.router.delete('/hardDelete/:id' ,middlewareHolder.destroyMiddleares,(req,res,next)=>this.getController().destroy(req,res,next));
    }
 
 }
