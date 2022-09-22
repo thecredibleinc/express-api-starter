@@ -26,6 +26,7 @@ module.exports.g = function(res, next, options) {
     service: true,
     validator: true,
     role:true,
+    migration:true
   }
 
   // set literal path
@@ -37,7 +38,8 @@ module.exports.g = function(res, next, options) {
     router: './literals/routes.js',
     service: './literals/service',
     validator: './literals/validator',
-    role:'./literals/role'
+    role:'./literals/role',
+    migration:'./literals/migration'
   }
   
   if (options.api) {
@@ -355,6 +357,39 @@ if (createTask.role) {
     // })
   // }
 }
+
+  /// STEP 4. Generate Validators file ///
+  if (createTask.migration) {
+    
+    log("\n");
+    log("# Generate migration file");
+    function formatDateToString(date){
+      // 01, 02, 03, ... 29, 30, 31
+      var dd = (date.getDate() < 10 ? '0' : '') + date.getDate();
+      // 01, 02, 03, ... 10, 11, 12
+      var MM = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1);
+      // 1970, 1971, ... 2015, 2016, ...
+      var yyyy = date.getFullYear();
+      //01, 02,03
+      var hh = (date.getHours() < 10 ? '0': '') +date.getHours();
+      //01, 02,03
+      var mm = (date.getMinutes() < 10 ? '0': '') +date.getMinutes();
+      //01, 02,03
+      var ss = (date.getSeconds() < 10 ? '0': '') +date.getSeconds();
+  
+      // create the format you want
+      return (""+yyyy+MM+dd+hh+mm+ss);
+  }
+    // Generate Validator file
+    const dateString = formatDateToString(new Date());
+    const migration_filename = `${dateString}-create_table_${resource}.js`;
+    const migration_filepath = path.join(rootpath,'src',"database","migrations", migration_filename);
+    const migration_literal = require(literals.migration)(resource);
+    makefile(migration_filepath, migration_literal, invoke_callback);
+    log('1. Check "migration_filename" ~>', migration_filename);
+    log('2. Check "migration_filepath" ~>', migration_filepath);
+    log('3. Check "migration_literal" ~>', typeof migration_literal === 'string');
+  }
 
   log("scaffolding completed.");
   
