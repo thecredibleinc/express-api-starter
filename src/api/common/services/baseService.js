@@ -16,7 +16,7 @@ class BaseService{
    *
    * @returns {Promise}
    */
-  async fetchAll(options) {
+  async fetchAll(options,meta) {
     try{
       options = this.sanitizeOptions(options)
       return  await this.getModel().findAll(options);
@@ -31,7 +31,7 @@ class BaseService{
    * @param {String} param 
    * @param {String} paramvalue 
    */
-  async fetchOne(options){
+  async fetchOne(options,meta){
     try{
       options = this.sanitizeOptions(options)
       return await this.getModel().findOne(options)
@@ -46,7 +46,7 @@ class BaseService{
    * @param   {Number|String}  id
    * @returns {Promise}
    */
-  async fetchById(id,options) {
+  async fetchById(id,options,meta) {
     try{
       return await this.getModel().findByPk(id,options)
     }catch(err){
@@ -77,7 +77,7 @@ class BaseService{
    * @param   {Object}  resource
    * @returns {Promise}
    */
-  async create(resourceAsObj,options) {
+  async create(resourceAsObj,options,meta) {
     try{
       // console.log("resourceAsObj",resourceAsObj)
       return await this.getModel().create(resourceAsObj,options);
@@ -92,7 +92,7 @@ class BaseService{
    * @param   {Object}  resource
    * @returns {Promise}
    */
-   async createBulk(resourcesArr) {
+   async createBulk(resourcesArr,options,meta) {
     try{
       return await this.getModel().bulkCreate(resourcesArr);
     }catch(err){
@@ -108,7 +108,7 @@ class BaseService{
    * @param   {Object}         resource
    * @returns {Promise}
    */
-  async update(id,resource,options) {
+  async update(id,resource,options,meta) {
     try{
       options = this.sanitizeOptions(options)
       options.where ={
@@ -129,7 +129,7 @@ class BaseService{
    * @param   {Number|String}  id
    * @returns {Promise}
    */
-  async delete(id,options,hardDelete = false) {
+  async delete(id,options,hardDelete = false,meta) {
     try{
       options = this.sanitizeOptions(options)
       options = {

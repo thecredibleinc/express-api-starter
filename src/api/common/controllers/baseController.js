@@ -18,7 +18,7 @@ class BaseController {
      */
     async fetchAll(req, res, next) {
         try{
-            const data = await this.getService().fetchAll()
+            const data = await this.getService().fetchAll({},{user:req.user})
             res.json(ResponseFormatter.format(data))
         }catch(err){
             next(err)
@@ -34,7 +34,7 @@ class BaseController {
      */
     async fetchById(req, res, next) {
         try{
-            const data = await this.getService().fetchById(req.params.id)
+            const data = await this.getService().fetchById(req.params.id,{},{user:req.user})
             res.json(ResponseFormatter.format(data))
         }catch(err){
             next(err)
@@ -50,7 +50,7 @@ class BaseController {
      */
     async create(req, res, next) {
         try{
-            const data = await this.getService().create(req.body)
+            const data = await this.getService().create(req.body,{},{user:req.user})
             res.status(HttpStatus.CREATED).json(ResponseFormatter.format(data))
         }catch(err){
             next(err)
@@ -66,7 +66,7 @@ class BaseController {
      */
     async update(req, res, next) {
         try{
-            const data = await this.getService().update(req.params.id, req.body);
+            const data = await this.getService().update(req.params.id, req.body,{},{user:req.user});
             res.json(ResponseFormatter.format(data))
         }catch(err){
             next(err)
@@ -82,7 +82,7 @@ class BaseController {
      */
     async delete(req, res, next) {
         try{
-            const data = await this.getService().delete(req.params.id,req.body);
+            const data = await this.getService().delete(req.params.id,req.body,false,{user:req.user});
             res.json(ResponseFormatter.format(data))
         }catch(err){
             next(err)
@@ -98,7 +98,7 @@ class BaseController {
      */
     async destroy(req, res, next) {
         try{
-            const data = await this.getService().delete(req.params.id,req.body,true)
+            const data = await this.getService().delete(req.params.id,req.body,true,{user:req.user})
             res.json(ResponseFormatter.format(data))
         }catch(err){
             next(err)
