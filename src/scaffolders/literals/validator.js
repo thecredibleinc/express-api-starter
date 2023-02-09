@@ -48,7 +48,7 @@ function find${resourceDenormalized}(req, res, next) {
     .fetchById(req.params.id)
     .then((data) => {
       if(!data){
-        next(notFound(localization(localeKeys.USER_NOT_FOUND))) 
+        next(notFound(localization(localeKeys.DATA_NOT_FOUND))) 
       }else if (data instanceof Error){
         next(data)
       }else{
