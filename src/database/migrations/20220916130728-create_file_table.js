@@ -1,5 +1,5 @@
 'use strict';
-import FileModel from "../../api/files/model/files.model"
+import FileModel from "../../api/files/models/files.model"
 import BaseModel from "../../api/common/models/baseModel";
 const model = FileModel 
 module.exports = {
