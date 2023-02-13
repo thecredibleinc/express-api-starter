@@ -17,6 +17,8 @@ import { setLocale } from '../utils/localization/localization.util';
 import formData from "express-form-data"
 import os from "os"
 import path from "path"
+import { CronManager } from '../jobs/cronManager';
+import ExampleJob from '../jobs/example.jobs';
 const server = express();
 
 setLocale("en-us");
@@ -78,6 +80,14 @@ async function initialiseDb(){
 }
 Promise.all([initialiseDb()])
 
+//enable cron jobs ...!!
+function initializeJobs() {
+  const cronManager = CronManager.getInstance()
+  cronManager.addJob(new ExampleJob())
+  // new ExampleJob().executeJob()
+  cronManager.startAll();
+}
+initializeJobs();
 
 // jwt authentication
 server.use(passport.initialize());
