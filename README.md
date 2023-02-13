@@ -19,6 +19,10 @@ Development utilities:
   * ☕️ Simple, flexible, fun JavaScript test framework for Node.js & The Browser ☕️
 * [supertest](https://www.npmjs.com/package/supertest)
   * HTTP assertions made easy via superagent.
+* [express-form-data](https://www.npmjs.com/package/express-form-data)
+  * For multi part file upload
+* [Custom Scaffolder]()
+  * For easily generating crud 
 
 ## Setup
 
@@ -38,8 +42,22 @@ npm run lint
 npm run test
 ```
 
+## .env
+
+```
+cp .env.sample .env
+```
+
+Then edit the .env to add proper db creds
+
 ## Development
 
 ```
-npm run dev
+npm run start:dev
+```
+
+## scaffold a crud api entity 
+
+```
+npm run scaffold:entity --res=name_of_entity_in_plural
 ```
