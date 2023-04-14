@@ -1,13 +1,14 @@
 let fs = require('fs');
 let path = require('path');
 let cmd = require('node-cmd');
-
+let os = require('os')
 // Helpers
 let log = require('./helpers/envlog');
 let {makefile, checkDirectorySync} = require('./helpers/makefile');
 let string_ = require('./helpers/string');
 
 module.exports.g = function(res, next, options) {
+    console.log(res);
     if(!res){
         res = process.env.npm_config_res;
     };
@@ -59,7 +60,10 @@ module.exports.g = function(res, next, options) {
   log("# Start: Load libraries and paths");
   log('1. Check helpers load ~>', typeof log === 'function', typeof makefile === 'function');
 
-  const rootpath = process.env.PWD; // TODO: Need to change stable path wherever running command.
+  console.log(os.type())
+  const rootpath = (os.type()=='Windows_NT')?process.cwd():process.env.PWD; // TODO: Need to change stable path wherever running command.
+  console.log('rootpath',rootpath);
+  let __dirname = path.resolve(path.dirname(''));
   const pkgpath = __dirname;
   const routerpath = path.join(rootpath, 'src', 'routes','v1', 'routes.js');
   const model_interface_path = path.join(rootpath, 'src', "interfaces",'model.interface.ts');
@@ -263,7 +267,7 @@ if (createTask.validator) {
 
         makefile(routerpath, newdata, (err, inputs) => {
           invoke_callback(err, inputs);
-          console.log("");
+          console.log(err);
         //   next();
         });
       });
@@ -304,8 +308,9 @@ if (createTask.role) {
   const authRolePath = path.join(rootpath, 'src', 'api','auth','config', 'roles.js');
 
   function insertRole(rolepath) {
-    fs.readFile(rolepath, 'utf8', function(err, data) {
-      
+    console.log("rolepath",rolepath)
+    fs.readFileSync(rolepath, 'utf8', function(err, data) {
+      console.log("err",err)
       let import_entity_role_file_literal = `import  { all${resourceDenormalized}Actions, all${resourceDenormalized}ActionsWithLevel } from "../../${resourceSingularized}/config/${resourceSingularized}.role";`
       // let route_literal = `router.use('/${resource}', ${resourceSingularized}Routes);`
       let role_literal = `    ...all${resourceDenormalized}Actions,`;
@@ -341,7 +346,7 @@ if (createTask.role) {
 
       makefile(authRolePath, newdata, (err, inputs) => {
         invoke_callback(err, inputs);
-        console.log("");
+        console.log(err);
       //   next();
       });
     });
@@ -350,7 +355,7 @@ if (createTask.role) {
   
   if (fs.existsSync(authRolePath)) {
     insertRole(authRolePath);
-  } 
+  } //TOOD: handle file not exists 
   // else {
     // fs.writeFile(routerpath, '', 'utf8', err => {
     //   insertRole(routerpath);

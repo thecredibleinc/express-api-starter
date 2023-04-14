@@ -18,13 +18,18 @@ const checkDirectorySync = function (directory) {
   try {
     fs.statSync(directory);
   } catch(e) {
-    fs.mkdirSync(directory);
+    try{
+      fs.mkdirSync(directory,{recursive: true});
+    }catch(err){
+      console.log(err)
+    }
+    
   }
 }
 
 const makefile = function (filepath, data, callback) {
   checkDirectorySync(path.dirname(filepath));
-  fs.writeFile(filepath, data,
+  fs.writeFileSync(filepath, data,
     function (err) {
       if (err){throw err};
       if (callback) { callback(err, {path: filepath, data: data}) };

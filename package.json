@@ -25,7 +25,9 @@
     "rollback:seed": "sequelize db:seed:undo",
     "make:seeder": "sequelize seed:create",
     "make:migration": "sequelize migration:create",
-    "scaffold:entity": "node -e 'require(\"./src/scaffolders/generate.js\").g()'"
+    "scaffold:entity:old": "node -e 'require(\"./src/scaffolders/generate.js\").g()'",
+    "scaffold:entity:new": "node scaffold.js"
+
   },
   "husky": {
     "hooks": {
